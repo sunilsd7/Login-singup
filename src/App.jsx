@@ -2,13 +2,20 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Login from './assets/Component/Layout/Login';
 import Signup from './assets/Component/Layout/Signup';
+
+
 import Home from './assets/Component/Layout/home';
 import User from './assets/Component/user/user';
 import ForgetPassword from './assets/Component/Layout/ForgetPassword';
 import Moderator from './assets/Component/Moderator/Moderator';
 import UserManagement from './assets/Component/Moderator/UserManagement';
 import RecordManagement from './assets/Component/Moderator/recordManagement';
-import Chat from './assets/Component/Moderator/chat';
+import ModeratorChat from './assets/Component/Moderator/ModeratorChat';
+import Appoinment from './assets/Component/user/Appointment';
+import VaccinationDetails from './assets/Component/user/VaccinationDetails';
+import UserChat from './assets/Component/user/UserChat';
+import ResetPassword from './assets/Component/Layout/Resetpassword';
+
 
 
 function App() {
@@ -19,7 +26,16 @@ function App() {
       <Route path='/moderatorDashboard' element={<Moderator />} />
       <Route path='/usermanagement' element={<UserManagement />} />
       <Route path='/vaccinationRecord' element={<RecordManagement />} />
-      <Route path='/chat' element={<Chat />} />
+      <Route path='/appointment' element={<Appoinment/>} />
+      <Route path='/vaccinationdetails' element={<VaccinationDetails />} />
+      <Route path='/resetPassword' element={<ResetPassword />} />
+
+
+
+      
+      <Route path='/ModeratorChat' element={<ModeratorChat />} />
+      <Route path='/UserChat' element={<UserChat />} />
+
 
 
 

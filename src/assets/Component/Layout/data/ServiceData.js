@@ -11,7 +11,7 @@ export const items = [
     label: "Booking",
     head: "Schedule your appointment with ease",
     buttonText: "Book Now",
-    path: "/booking", // Path for navigation
+    path: "/vaccinationDetails", // Path for navigation
   },
   {
     type: "vaccinationrecord",

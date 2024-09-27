@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom"; // Use NavLink for active class support
 
 function UserNavbar() {
   return (
@@ -7,28 +7,57 @@ function UserNavbar() {
       {/* Top Section */}
       <div className="mb-8 text-white">
         <div className="text-2xl font-bold mb-8">User Dashboard</div>
-        <ul className="space-y-4 ">
+        <ul className="space-y-4">
           <li>
-            <Link
-              to="/profile"
-              className="block py-2 px-4 rounded  hover:bg-gray-200"
+            <NavLink
+              to="/user"
+              className={({ isActive }) =>
+                isActive
+                  ? "block py-2 px-4 rounded bg-gray-900 text-white"
+                  : "block py-2 px-4 rounded hover:bg-gray-700 text-gray-300"
+              }
             >
               Dashboard
-              </Link>
-            <Link
-              to="/settings"
-              className="block py-2 px-4 rounded  hover:bg-gray-200"
-            >
-             Vaccination Record
-            </Link>
+            </NavLink>
           </li>
+
           <li>
-            <Link
-              to="/notifications"
-              className="block py-2 px-4 rounded  hover:bg-gray-200"
+            <NavLink
+              to="/vaccinationDetails"
+              className={({ isActive }) =>
+                isActive
+                  ? "block py-2 px-4 rounded bg-gray-900 text-white"
+                  : "block py-2 px-4 rounded hover:bg-gray-700 text-gray-300"
+              }
             >
-              Notifications
-            </Link>
+              Upcoming Vaccination
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/appointment"
+              className={({ isActive }) =>
+                isActive
+                  ? "block py-2 px-4 rounded bg-gray-900 text-white"
+                  : "block py-2 px-4 rounded hover:bg-gray-700 text-gray-300"
+              }
+            >
+              Appointment
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/UserChat"
+              className={({ isActive }) =>
+                isActive
+                  ? "block py-2 px-4 rounded bg-gray-900 text-white"
+                  : "block py-2 px-4 rounded hover:bg-gray-700 text-gray-300"
+              }
+            >
+              Chat
+            </NavLink>
           </li>
         </ul>
       </div>
@@ -38,12 +67,12 @@ function UserNavbar() {
 
       {/* Logout Section */}
       <div>
-        <Link
+        <NavLink
           to="/"
-          className="block py-2 px-4 rounded text-red-500 hover:bg-red-100"
+          className="block py-2 px-4 rounded text-red-500 hover:bg-red-100 hover:text-red-700"
         >
           Logout
-        </Link>
+        </NavLink>
       </div>
     </div>
   );
