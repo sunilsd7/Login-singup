@@ -1,20 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Button from './Button';
+import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom';
+import { useSignupMutation } from '../../Service/authApi';
 import Navbar from './Navbar';
 
 function Signup() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [dob, setDob] = useState('');
-  const [gender, setGender] = useState('');
+  const navigate = useNavigate();
+    const [formErrors, setFormErrors] = useState({});
+    const [formData, setFormData] = useState({
+        Username: '',
+        Email: '',
+        Password: '',
+        ConfirmPassword: '',
+    });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Name:", name, "Email:", email, "Password:", password, "Confirm Password:", confirmPassword, "DOB:", dob, "Gender:", gender);
-  };
+    const [signupUser, { data, error, isError, isLoading, isSuccess }] = useSignupMutation();
+
+    useEffect(() => {
+        if (data) {
+            navigate('/login');
+        }
+
+        if (error?.data?.message) {
+            setFormErrors((prevErrors) => ({
+                general: error?.data?.message,
+            }));
+        }
+
+        if (error?.data?.errors?.Username) {
+            setFormErrors((prevErrors) => ({
+                Username: error?.data?.errors?.Username.join(', '),
+            }));
+        }
+
+        if (error?.data?.errors?.ConfirmPassword) {
+            setFormErrors((prevErrors) => ({
+                ConfirmPassword: error?.data?.errors?.ConfirmPassword.join(', '),
+            }));
+        }
+        if (error?.data?.errors?.Password) {
+            setFormErrors((prevErrors) => ({
+                Password: error?.data?.errors?.Password.join(', '),
+            }));
+        }
+
+
+
+    }, [error, data]);
+
+    const HandleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await signupUser(formData);
+        } catch (error) {
+            console.error("Something went wrong:", error)
+        }
+    }
+
+    const HandleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => {
+            return { ...prevData, [name]: value }
+        })
+    }
+
 
   return (
     <>
@@ -26,100 +76,85 @@ function Signup() {
         {/* Left side: Signup Form */}
         <div className="w-1/2 p-8">
           <h2 className="text-3xl font-bold text-center mb-6">Sign Up</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
+          <form onSubmit={HandleSubmit}>
+            <div className="mb-1">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-                Name
+                Username
               </label>
               <input
                 type="text"
+                name="Username"
                 id="name"
+                required
+                value={formData.Username}
+                onChange={HandleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter your Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
               />
             </div>
-            <div className="mb-4">
+            {formErrors.Username && (
+                                <span className="text-red-500 text-sm mt-1">{formErrors.Username}</span>
+                            )}
+
+            <div className="mb-1">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                 Email
               </label>
               <input
                 type="email"
                 id="email"
+                name="Email"
+                required
+                value={formData.Email}
+                onChange={HandleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div className="mb-4">
+
+            {formErrors.general && (
+                                <span className="text-red-500 text-sm mt-1">{formErrors.general}</span>
+                            )}
+
+            <div className="mb-1">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                 Password
               </label>
               <input
                 type="password"
+                 name="Password"
                 id="password"
+                required
+                value={formData.Password}
+                onChange={HandleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <div className="mb-4">
+
+            {formErrors.Password && (
+                                <span className="text-red-500 text-sm mt-1">{formErrors.Password}</span>
+                            )}               
+
+            <div className="mb-1">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirmPassword">
                 Confirm Password
               </label>
               <input
                 type="password"
+                name="ConfirmPassword"
                 id="confirmPassword"
+                required
+                value={formData.ConfirmPassword}
+                onChange={HandleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Confirm your password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="dob">
-                Date of Birth
-              </label>
-              <input
-                type="date"
-                id="dob"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                value={dob}
-                onChange={(e) => setDob(e.target.value)}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Gender</label>
-              <div>
-                <label className="mr-4">
-                  <input
-                    type="radio"
-                    value="Male"
-                    checked={gender === "Male"}
-                    onChange={(e) => setGender(e.target.value)}
-                  /> Male
-                </label>
-                <label className="mr-4">
-                  <input
-                    type="radio"
-                    value="Female"
-                    checked={gender === "Female"}
-                    onChange={(e) => setGender(e.target.value)}
-                  /> Female
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    value="Other"
-                    checked={gender === "Other"}
-                    onChange={(e) => setGender(e.target.value)}
-                  /> Other
-                </label>
-              </div>
-            </div>
+            {formErrors.ConfirmPassword && (
+                                <span className="text-red-500 text-sm mt-1">{formErrors.ConfirmPassword}</span>
+                            )}
+
             <div className="items-center justify-between">
               <Button style="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full" text={"Signup"} />
             </div>

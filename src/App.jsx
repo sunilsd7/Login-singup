@@ -1,25 +1,47 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Login from './assets/Component/Layout/Login';
-import Signup from './assets/Component/Layout/Signup';
+import { Toaster } from 'react-hot-toast'
+import { useLocation } from 'react-router-dom'
+
+import Login from './Component/Layout/Login';
+import Signup from './Component/Layout/Signup';
 
 
-import Home from './assets/Component/Layout/home';
-import User from './assets/Component/user/user';
-import ForgetPassword from './assets/Component/Layout/ForgetPassword';
-import Moderator from './assets/Component/Moderator/Moderator';
-import UserManagement from './assets/Component/Moderator/UserManagement';
-import RecordManagement from './assets/Component/Moderator/recordManagement';
-import ModeratorChat from './assets/Component/Moderator/ModeratorChat';
-import Appoinment from './assets/Component/user/Appointment';
-import VaccinationDetails from './assets/Component/user/VaccinationDetails';
-import UserChat from './assets/Component/user/UserChat';
-import ResetPassword from './assets/Component/Layout/Resetpassword';
+import Home from './Component/Layout/home';
+import User from './Component/user/user';
+import ForgetPassword from './Component/Layout/ForgetPassword';
+import Moderator from './Component/Moderator/Moderator';
+import UserManagement from './Component/Moderator/UserManagement';
+import RecordManagement from './Component/Moderator/recordManagement';
+import ModeratorChat from './Component/Moderator/ModeratorChat';
+import Appoinment from './Component/user/Appointment';
+import VaccinationDetails from './Component/user/VaccinationDetails';
+import UserChat from './Component/user/UserChat';
+import ResetPassword from './Component/Layout/Resetpassword';
 
 
 
 function App() {
+  const location=useLocation();
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+
+    if (token || username) {
+      const currentPath = location.pathname;
+      console.log(currentPath)
+      const protectedPath=['/','/signup','/login']
+      if(protectedPath.includes(currentPath)){
+        console.log("token removed if includes!")
+        localStorage.clear();
+
+      }
+    }
+  }, [location]);
   return (
+    <>
+    <div><Toaster  position="top-center"
+  reverseOrder={false}/></div>
     <Routes>
       <Route path='/' element={<Home />} />
       <Route path='/user' element={<User />} />
@@ -43,6 +65,7 @@ function App() {
       <Route path='/signup' element={<Signup />} />
       <Route path='/forgetPassword' element={<ForgetPassword />} />
     </Routes>
+    </>
   );
 }
 

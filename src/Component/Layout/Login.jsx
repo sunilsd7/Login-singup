@@ -1,16 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from './Button';
+import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
+import { useLoginMutation } from '../../Service/authApi';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const navigate=useNavigate();
+  const [formErrors, setFormErrors] = useState({});
+    const [logdata,setData]=useState({Email:'',Password:''});
+    const [loginData,{data,error,isLoading}]=useLoginMutation();
+  
+    useEffect(()=>{
+      if (error?.data?.type=="EmailPassword") {
+        setFormErrors((prevErrors) => ({
+            Password: error?.data?.message,
+        }));
+    }
+    
+      if(data){
+        localStorage.setItem('token', data?.data);
+        localStorage.setItem('username', logdata.Email);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Email:", email, "Password:", password);
-  };
+        navigate('/user');
+      }
+    },[error,data])
+  
+    const HandleSubmit=async(e)=>{
+      e.preventDefault();
+      try {
+          await loginData(logdata);
+      } catch (error) {
+          console.error("Something went wrong:",error)
+      }
+  }
+  
+  const HandleChange=(e)=>{
+      const {name,value}=e.target;
+      setData((prevData)=>{
+          return {...prevData,[name]:value}
+      })
+  }
+
 
   return (
     <>
@@ -22,7 +53,7 @@ function Login() {
         {/* Left side: Login Form */}
         <div className="w-1/2 p-8">
           <h2 className="text-3xl font-bold text-center mb-6">Login</h2>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={HandleSubmit}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                 Email
@@ -30,12 +61,17 @@ function Login() {
               <input
                 type="email"
                 id="email"
+                name="Email"
+                required
+                value={logdata.Email}
+                onChange={HandleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+            {formErrors.Email && (
+                            <span className="text-red-500 text-sm mt-1">{formErrors.Email}</span>
+                        )}
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                 Password
@@ -43,12 +79,17 @@ function Login() {
               <input
                 type="password"
                 id="password"
+                name="Password"
+                required
+                value={logdata.Password}
+                onChange={HandleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+            {formErrors.Password && (
+                            <span className="text-red-500 text-sm mt-1">{formErrors.Password}</span>
+                        )}
             <div className="items-center justify-between">
               <Button style="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full" text={"Login"} />
             </div>
