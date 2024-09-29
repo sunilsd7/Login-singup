@@ -3,8 +3,8 @@ import ModeratorNav from './ModeratorNav';
 
 const RecordManagement = () => {
   const [records] = useState([
-    { id: 1, vaccinationName: 'Polio', vaccinationType: 'Oral', patientName: 'John Doe', status: 'Served' },
-    { id: 2, vaccinationName: 'MMR', vaccinationType: 'Injection', patientName: 'Jane Smith', status: 'Peek' },
+    { id: 1, vaccinationName: 'Polio', vaccinationType: 'Oral', patientName: 'John Doe', status: 'Delayed' },
+    { id: 2, vaccinationName: 'MMR', vaccinationType: 'Injection', patientName: 'Jane Smith', status: 'Delayed' },
     { id: 3, vaccinationName: 'Hepatitis B', vaccinationType: 'Injection', patientName: 'Michael Brown', status: 'Delayed' },
   ]);
 
@@ -52,7 +52,7 @@ const RecordManagement = () => {
                   onClick={() => handleAction(record.id)}
                   className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700"
                 >
-                  Action
+                  Update to Served
                 </button>
               </td>
             </tr>
