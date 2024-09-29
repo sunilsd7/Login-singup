@@ -5,9 +5,7 @@ import UserNav from './UserNav'
 
 const VaccinationTable = () => {
   const vaccinationData = [
-    { id: 1, name: 'Covid-19 Vaccine', date: '2024-09-25', dose: '2nd Dose', location: 'Local Health Center' },
-    { id: 2, name: 'Polio Vaccine', date: '2024-10-05', dose: '1st Dose', location: 'City Hospital' },
-    { id: 3, name: 'Hepatitis B Vaccine', date: '2024-10-15', dose: '3rd Dose', location: 'Community Clinic' }
+    { id: 1, name: 'Covid-19 Vaccine', date: '2024-09-25', dose: '2nd Dose', location: 'Local Health Center' }
   ];
 
   return (

@@ -1,34 +1,50 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import toast from 'react-hot-toast';
 import UserNavbar from './UserNav';
+import { useNavigate } from 'react-router-dom';
+//import GetAuthToken from '../Layout/GetAuthToken.jsx';
+import VaccinationRecords from './UserVaccinationRecord';
+
 
 const User = () => {
-  // You can fetch the username from localStorage if it's stored after login
+  
+  const navigate=useNavigate();
   const username = localStorage.getItem('username') || 'User'; 
+//const token=GetAuthToken();
+ 
+
+
 
   return (
     <>
       <div className="flex min-h-screen">
     
-        <div className="w-1/4">
+        <div className="">
           <UserNavbar />
         </div>
+        <div className='w-full'>
 
         <div className="w-3/4 p-8">
        
           <h1 className="text-3xl font-bold mb-6">Welcome, {username}</h1>
 
-      
-          <div className="flex justify-between">
-            <div className="w-1/2 p-4 bg-white shadow rounded mr-4">
-              <h2 className="text-xl font-semibold mb-4">Vaccination Record</h2>
+          <div className="usedetails m-10">
+            <p className="font-bold">User Information</p>
+            <h2>Email:sumildumre555@gmail.com</h2>
+            <h2>Name:Sunil Dumre Sharma</h2>
             
-            </div>
-            <div className="w-1/2 p-4 bg-white shadow rounded ml-4">
-              <h2 className="text-xl font-semibold mb-4">Upcoming Vaccines</h2>
-            
-            </div>
           </div>
+
+      
+        
+       
         </div>
+        <div className='mt-10'>
+          <p className="font-bold ">Vaccination Record</p>
+          <VaccinationRecords/>
+        </div>
+        </div>
+      
       </div>
     </>
   );

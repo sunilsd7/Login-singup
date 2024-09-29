@@ -18,6 +18,10 @@ import Appoinment from './Component/user/Appointment';
 import VaccinationDetails from './Component/user/VaccinationDetails';
 import UserChat from './Component/user/UserChat';
 import ResetPassword from './Component/Layout/Resetpassword';
+import USerPasswordReset from './Component/user/UserPasswordChange';
+
+
+
 
 
 
@@ -48,9 +52,13 @@ function App() {
       <Route path='/moderatorDashboard' element={<Moderator />} />
       <Route path='/usermanagement' element={<UserManagement />} />
       <Route path='/vaccinationRecord' element={<RecordManagement />} />
+   
+
       <Route path='/appointment' element={<Appoinment/>} />
       <Route path='/vaccinationdetails' element={<VaccinationDetails />} />
       <Route path='/resetPassword' element={<ResetPassword />} />
+      <Route path='/userpasswordreset' element={<USerPasswordReset/>} />
+
 
 
 

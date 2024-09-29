@@ -34,18 +34,7 @@ function UserNavbar() {
             </NavLink>
           </li>
 
-          <li>
-            <NavLink
-              to="/appointment"
-              className={({ isActive }) =>
-                isActive
-                  ? "block py-2 px-4 rounded bg-gray-900 text-white"
-                  : "block py-2 px-4 rounded hover:bg-gray-700 text-gray-300"
-              }
-            >
-              Appointment
-            </NavLink>
-          </li>
+      
 
           <li>
             <NavLink
@@ -58,6 +47,19 @@ function UserNavbar() {
             >
               Chat
             </NavLink>
+          </li>
+
+          <li>
+            <NavLink to='/userpasswordreset' 
+              className={({ isActive }) =>
+                isActive
+                  ? "block py-2 px-4 rounded bg-gray-900 text-white"
+                  : "block py-2 px-4 rounded hover:bg-gray-700 text-gray-300"
+              }
+            >
+              Password Change
+            </NavLink>
+            
           </li>
         </ul>
       </div>
